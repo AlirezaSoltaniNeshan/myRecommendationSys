@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>The best Reads</title>
+    <link rel="stylesheet" href="./css/header.css">
+    <link rel="stylesheet" href="./css/dataGrid.css">
+
+</head>
+
+<body>
+    <!-- partial:index.partial.html -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.11/css/all.css"
+        integrity="sha384-p2jx59pefphTFIpeqCcISO9MdVfIm4pNnsL08A6v5vaQc4owkQqxMV8kg4Yvhaw/" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700,700i" rel="stylesheet">
+
+    <div class="navbar">
+        <div class="navbar-top">
+            <div class="navbar-top-left">
+            </div>
+            <% if(results == ""){%>
+            <div class="navbar-top-right">
+                <a href="/login">Login</a>
+                <div class="navbar-profile">
+                    <div class="profpic-wrapper">
+                        <div class="navbar-profpic">
+                            <div class="profile-initial">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="profile-name">Join to us!</div>
+                    <div class="profile-dropdown"><i class="fas fa-chevron-down"></i></div>
+                </div>
+            </div>
+            <%} else{%>
+            <% results.forEach(data =>{%>
+            <div class="navbar-top-right">
+                <a href="/logout">Login</a>
+                <div class="navbar-profile">
+                    <div class="profpic-wrapper">
+                        <div class="navbar-profpic">
+                            <div class="profile-initial">
+                                <img src="<%= data.avatar%>" alt="User avatar">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="profile-name"><%= data.username%></div>
+                    <div class="profile-dropdown"><i class="fas fa-chevron-down"></i></div>
+                </div>
+            </div>
+            <%})%>
+            <%}%>
+    </div>
+  </div>
+
+  <h1>Your Yelp is here!</h1>
+  
+  <a href="/recommededFoods">Recommended your favorite foods</a>
+  <a href="/people">Recommended your favorite foods</a>
+
+<div class="image-grid">
+  <% yelpData.forEach(yData =>{%>
+
+            <a href="/yelp/<%= yData.id%>" class="image-bg" style="background-image:url(<%= yData.image_url%>)">
+                <h4 style="margin-top: 50px;"><%= yData.name %></h4>
+                <img class="image-bg-placeholder" src="<%= yData.image_url%>" alt="" />
+            </a>
+
+            <%})%>
+        </div>
+
+
+</body>
+
+</html>

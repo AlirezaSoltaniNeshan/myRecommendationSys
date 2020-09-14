@@ -1,0 +1,110 @@
+html, body {
+    color: #333;
+    font-size: 16px;
+    line-height: 20px;
+  }
+  
+  body {
+    margin: 20px;
+  }
+  
+  
+  .image-grid {
+    display: -webkit-box;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 auto 35px;
+    max-width: 920px;
+  }
+  
+  
+  /** Screen readers only class from Bootstrap */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    -webkit-clip-path: inset(50%);
+            clip-path: inset(50%);
+    border: 0;
+  }
+  
+  /** Actual code examples */
+  /** Background */
+  .image-bg {
+    background-position: center center;
+    background-size: cover;
+    -webkit-box-flex: 0;
+            flex: 0 0 auto;
+    margin: 5px;
+    width: calc(25% - 10px);
+  }
+  
+  .image-bg-placeholder {
+    height: 100%;
+    visibility: hidden;
+    width: 100%;
+  }
+  
+  /** Object-fit */
+  .image-fit {
+    -webkit-box-flex: 0;
+            flex: 0 0 auto;
+    margin: 5px;
+    position: relative;
+    width: calc(25% - 10px);
+  }
+  
+  .image-fit-placeholder {
+    height: 100%;
+    visibility: hidden;
+    width: 100%;
+  }
+  
+  .image-fit-img {
+    bottom: 0;
+    height: 100%;
+    left: 0;
+    -o-object-fit: cover;
+       object-fit: cover;
+    -o-object-position: center;
+       object-position: center;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100%;
+  }
+  
+  /** Absolute positioning */
+  .image {
+    -webkit-box-flex: 0;
+            flex: 0 0 auto;
+    margin: 5px;
+    overflow: hidden;
+    position: relative;
+    width: calc(25% - 10px);
+  }
+  
+  .image-placeholder {
+    height: 100%;
+    visibility: hidden;
+    width: 100%;
+  }
+  
+  
+  /** Responsive grid */
+  @media (max-width: 480px) {
+    .image,
+    .image-fit,
+    .image-bg,
+    .image-svg {
+      width: calc(50% - 10px);
+    }
+  
+    .image-svg {
+      padding-bottom: calc(50% - 10px);
+    }
+  }
