@@ -1,46 +1,48 @@
 const axios = require('axios').default
 const dbModel = require('../model/dbModel');
-const configYelpAPI = require('../api/yelp')
+const configYelpAPI = require('../api/yelp');
+const { get } = require('request');
 
-const rootEndpoint = (req, res) => {
-    const getData = async () => {
+const getData = async () => {
+    try {
         const response = await configYelpAPI.businessesSearch.get('/search', {
-            params:{
+            params: {
                 limit: 50,
                 term: '',
                 location: 'san jose'
             }
         })
         const data = response.data.businesses
-
-        var finalResults = ""
-        const usersSession = req.session.u_id
-
-        if (usersSession) {
-            const getUser = `SELECT * FROM users WHERE uid = "${usersSession}"`
-            dbModel.conn.query(getUser, (err, results) => {
-                if (err) res.redirect('/login?msg=accessDenied')
-
-                if (results != "") {
-                    finalResults = results
-
-                    res.render('index', {
-                        results: finalResults,
-                        yelpData: data
-                    })
-
-                }
-
-            })
-        } else {
-            res.render('index', {
-                results: finalResults,
-                yelpData: data
-            })
-           
-        }
+        return data
+    } catch {
+        return ""
     }
+}
+const rootEndpoint = (req, res) => {
+    // Getting user Session to check auth that
+    const usersSession = req.session.u_id
+    // If there was a user in session (server side)
+    if (usersSession) {
+        const getUser = `SELECT * FROM users WHERE uid = "${usersSession}"`
+        dbModel.conn.query(getUser, (err, results) => {
+            if (err) res.redirect('/login?msg=accessDenied')
 
-    getData()
+            if (results != "") {
+                (async () => {
+                    res.render('index', {
+                        results: results,
+                        yelpData: await getData()
+                    })
+                })()
+            }
+        })
+    } else {
+        (async () => {
+            res.render('index', {
+                results: '',
+                yelpData: await getData()
+            })
+        })()
+    }
 }
 module.exports = { rootEndpoint }

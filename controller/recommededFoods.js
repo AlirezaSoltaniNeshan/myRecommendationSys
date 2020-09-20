@@ -6,7 +6,7 @@ const yelp = require('../api/yelp')
 const getYelpDataByTitle = async (title) => {
     const responseByTitle = await yelp.businessesSearch.get('/search', {
         params: {
-            limit: 2,
+            limit: 20,
             term: title,
             location: 'san jose'
         }
@@ -18,7 +18,6 @@ const getYelpDataByTitle = async (title) => {
 const getRecommendationTitle = (req, res) => {
 
     // Get users did like with query to mysql 
-    var finalRecommendResults = ""
     const userSession = req.session.u_id
     if (userSession) {
         const cmd = `SELECT title 
@@ -33,19 +32,24 @@ const getRecommendationTitle = (req, res) => {
                 (async () => {
                     var recommend = []
                     for (title in results) {
-                        var data = await getYelpDataByTitle(results[title].title)
+                        // console.log(`==================================${results[title].title}==================================`)
+                        const data = await getYelpDataByTitle(results[title].title)
+                        // console.log(data)
                         recommend.push(data)
                     }
                     res.render('recommendFoods', {
-                        results: recommend[0]
+                        results: recommend
                     })
-                    // console.log(recommend[0])
                 })()
+            } else {
+                res.render('recommendFoods', {
+                    results: 'NotFoundRecommend'
+                })
             }
         })
     } else {
         res.render('recommendFoods', {
-            results: finalRecommendResults
+            results: 'accessDenied'
         })
     }
 }

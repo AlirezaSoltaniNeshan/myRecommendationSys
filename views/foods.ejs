@@ -1,1 +1,9 @@
-<%= businessesSearch%>
+<img style="width: 150px; height: 200px;" src="<%= businessesSearch.image_url%>"
+    alt="<%= businessesSearch.categories[0].alias%>">
+<h2><%= businessesSearch.name%></h2>
+<h3>Tags: #<%= businessesSearch.categories[0].alias%> #<%= businessesSearch.categories[0].title%></h3>
+<h4>People rates: <%= businessesSearch.rating%></h4>
+<h5>Location: <%= businessesSearch.location.address1%>, City: <%= businessesSearch.location.city%>,
+    <%= businessesSearch.location.address1%></h5>
+<h6>Display Address: <%= businessesSearch.location.display_address[0]%>,
+    <%=businessesSearch.location.display_address[1]%></h6>

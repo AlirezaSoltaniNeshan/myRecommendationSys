@@ -36,7 +36,7 @@
             <%} else{%>
             <% results.forEach(data =>{%>
             <div class="navbar-top-right">
-                <a href="/logout">Login</a>
+                <a href="/logout">Logout!</a>
                 <div class="navbar-profile">
                     <div class="profpic-wrapper">
                         <div class="navbar-profpic">
@@ -56,21 +56,25 @@
 
   <h1>Your Yelp is here!</h1>
   
-  <a href="/recommededFoods">Recommended your favorite foods</a>
-  <a href="/people">Recommended your favorite foods</a>
+  <a href="/recommededFoods">Recommended your favorite foods</a><br>
+  <a href="/people">Who near to you? click to see that!</a>
 
-<div class="image-grid">
-  <% yelpData.forEach(yData =>{%>
+<%if(yelpData != ""){%>
+            <div class="image-grid">
+                <% yelpData.forEach(yData =>{%>
 
-            <a href="/yelp/<%= yData.id%>" class="image-bg" style="background-image:url(<%= yData.image_url%>)">
-                <h4 style="margin-top: 50px;"><%= yData.name %></h4>
-                <img class="image-bg-placeholder" src="<%= yData.image_url%>" alt="" />
-            </a>
+                <a href="/yelp/<%= yData.id%>" class="image-bg" style="background-image:url(<%= yData.image_url%>)">
+                    <h4 style="margin-top: 50px;"><%= yData.name %></h4>
+                    <img class="image-bg-placeholder" src="<%= yData.image_url%>" alt="" />
+                </a>
 
-            <%})%>
-        </div>
+                <%})%>
+            </div>
 
-
+            <%} else{%>
+            <h1>DataBase Error</h1>
+            <p>We can't found any data from Yelp API.</p>
+            <p> Check You internet connection or if you're in Iran, Please connect to your VPN.</p>
+            <%}%>
 </body>
-
 </html>

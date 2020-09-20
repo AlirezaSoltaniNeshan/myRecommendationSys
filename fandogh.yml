@@ -1,9 +1,9 @@
 kind: ExternalService
-name: polikoo
+name: yelp
 spec:
   image_pull_policy: Always
   port: 4000
   source:
     context: .
-    node_version: '10'
+    node_version: 10.16.3
     project_type: nodejs

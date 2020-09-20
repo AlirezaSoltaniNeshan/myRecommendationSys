@@ -1,8 +1,37 @@
+<head>
+    <meta charset="UTF-8">
+    <title>Recommended to you</title>
+    <link rel="stylesheet" href="./css/header.css">
+    <link rel="stylesheet" href="./css/dataGrid.css">
+
+</head>
+
+<% if (results == "accessDenied" ) {%>
+
+<h1>You would logged in!</h1>
+<h2>Please login to site to have Service recommendation</h2>
+
+<%} else if(results == "NotFoundRecommend"){%>
+<h1>You have not any suggestion or recommend foods for now</h1>
+<%} else {%>
 <h1>Your recommendation</h1>
 
-<% results.forEach(yData =>{%>
+<div class="image-grid">
 
-<p><%= yData.name %></p>
-<p><%= yData.image_url %></p>
+    <%for (var i = 0; i < results.length; i++) {%>
+    <%for (var j = 0; j < results[i].length; j++) {%>
+    <a href="/yelp/<%= results[i][j].id%>" class="image-bg" style="background-image:url(<%= results[i][j].image_url%>)">
+        <!-- <h4 style="margin-top: 50px;"><%= results[i][j].name %></h4> -->
+        <!-- <h4 style="margin-top: 50px;"><%= results[i][j].categories[0].title %></h4><br> -->
+        <img class="image-bg-placeholder" src="<%= results[i][j].image_url%>" alt="" />
+    </a>
+    <%}%>
+          <%}%>
+</div>
 
-<%})%>
+
+
+<%}%>
+
+
+    

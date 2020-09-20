@@ -40,6 +40,7 @@ const getYelpBusinessesSearch = (req, res, next) => {
         res.render('foods', {
             businessesSearch: yelData
         })
+        // console.log(yelData)
         // Check to click from Client to Server
         var foodTopic = yelData.categories[0].title
         checkIn(foodTopic)
