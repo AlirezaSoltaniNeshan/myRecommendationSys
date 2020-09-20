@@ -1,5 +1,7 @@
 const dbModel = require('../model/dbModel').conn
 const axios = require('axios').default
+const { rejects } = require('assert')
+const { resolve } = require('path')
 const yelp = require('../api/yelp')
 
 
@@ -13,6 +15,17 @@ const getYelpDataByTitle = async (title) => {
     })
     const dataByTitle = responseByTitle.data.businesses
     return dataByTitle
+}
+
+const findTitleInResults = (results) => {
+    return new Promise(async (resolve, rejects) => {
+        var recommend = []
+        for (title in results) {
+            const data = await getYelpDataByTitle(results[title].title)
+            recommend.push(data)
+        }
+        resolve(recommend)
+    })
 }
 
 const getRecommendationTitle = (req, res) => {
@@ -29,18 +42,11 @@ const getRecommendationTitle = (req, res) => {
             if (err) res.redirect('/')
 
             if (results != "") {
-                (async () => {
-                    var recommend = []
-                    for (title in results) {
-                        // console.log(`==================================${results[title].title}==================================`)
-                        const data = await getYelpDataByTitle(results[title].title)
-                        // console.log(data)
-                        recommend.push(data)
-                    }
+                findTitleInResults(results).then(recommend => {
                     res.render('recommendFoods', {
                         results: recommend
                     })
-                })()
+                })
             } else {
                 res.render('recommendFoods', {
                     results: 'NotFoundRecommend'
