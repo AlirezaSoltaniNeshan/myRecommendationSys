@@ -6,8 +6,11 @@ const env = require('./config/env'),
     app = express(),
     helmet = require('helmet'),
     cookieParser = require('cookie-parser'),
-    passport = require('passport')
+    passport = require('passport'),
+    redis = require('redis'),
+    redisStore = require('connect-redis')(session)
 
+var client = redis.createClient()
 // =========================== PASSPORT STRATEGY ===========================
 // Github strategy 
 const GitHubStrategy = require('passport-github').Strategy;
@@ -42,6 +45,12 @@ app.use(cookieParser());
 // This section must be first!
 app.use(session({
     secret: 'I love Express!',
+    store: new redisStore({
+        host: 'localhost',
+        port: '6379',
+        client: client,
+        ttl: 260
+    }),
     resave: false,
     saveUninitialized: true,
 }));
@@ -76,6 +85,8 @@ const userSubmission = require('./routes/submissionRouter')
 const index = require('./routes/index')
 const businessesSearch = require('./routes/businessesSearchId');
 const recommendedFoods = require('./routes/recommendedFoods')
+
+
 // When users can go to their Github accounts:
 app.use(userSubmission)
 // Login Page Render
@@ -85,15 +96,13 @@ app.get('/logout', (req, res) => {
     req.session.destroy()
     res.redirect('/')
 })
-
 // Root endpoint:
 app.use('/', index)
-
 // Businesses search view
 app.use(businessesSearch)
-
 // To recommend foods to any users
 app.use(recommendedFoods)
+
 
 
 
