@@ -19,6 +19,7 @@ const googleAuth = ('/gAuth', passport.authenticate('google', {
     successRedirect: '/submitGoogleUserData',
     failureRedirect: '/login'
 }))
+
 // Submit users with github accounts 
 const gitAccountSubmission = (req, res, next) => {
     // Create user details objection 
@@ -29,28 +30,33 @@ const gitAccountSubmission = (req, res, next) => {
         avatar: req.user.photos[0].value,
         s_provider: 'Github'
     }
+
     // To check if our user has not any account in our db
     const checkQuery = `SELECT uid FROM users where uid=${users.uid}`
-    model.conn.query(checkQuery, (err, results) => {
-        if (err) res.redirect('/login?msg=dbErr') //console.log(err) 
+    try {
+        model.conn.query(checkQuery, (err, results) => {
+            if (err) res.redirect('/login?msg=dbErr') //console.log(err) 
 
-        if (results == "") {
-            const cmd = 'INSERT INTO users SET?'
-            model.conn.query(cmd, users, (err, results) => {
-                if (err) res.redirect('/login?msg=dbErr') //console.log(err) 
-                else {
-                    // res.cookie("U_id", users.uid)
-                    req.session.u_id = users.uid
-                    res.redirect('/')
-                }
-            })
-        }
-        else {
-            // res.cookie("U_id", users.uid)
-            req.session.u_id = users.uid
-            res.redirect('/')
-        }
-    })
+            if (results == "") {
+                const cmd = 'INSERT INTO users SET?'
+                model.conn.query(cmd, users, (err, results) => {
+                    if (err) res.redirect('/login?msg=dbErr') //console.log(err) 
+                    else {
+                        // res.cookie("U_id", users.uid)
+                        req.session.u_id = users.uid
+                        res.redirect('/')
+                    }
+                })
+            }
+            else {
+                // res.cookie("U_id", users.uid)
+                req.session.u_id = users.uid
+                res.redirect('/')
+            }
+        })
+    } catch {
+        res.send('Db connection has error! \n Admin will check that very soon!')
+    }
 }
 
 const googleAccountSubmission = (req, res, next) => {
