@@ -1,6 +1,5 @@
-const axios = require('axios')
-const yelpConfig = require('../api/yelp')
-const dbModel = require('../model/dbModel')
+const yelpConfig = require('../api/yelp'),
+    dbModel = require('../model/dbModel')
 
 const getYelpBusinessesSearch = (req, res, next) => {
     const yelpId = req.params.yelpId

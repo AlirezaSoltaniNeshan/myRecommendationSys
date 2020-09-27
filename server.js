@@ -1,13 +1,13 @@
-const env = require('./config/env')
-const path = require('path');
-const express = require('express');
-const session = require('express-session');
-const mySql = require('mysql');
-const app = express();
-const helmet = require('helmet');
-const cookieParser = require('cookie-parser');
-const passport = require('passport');
-const axios = require('axios').default
+const env = require('./config/env'),
+    path = require('path'),
+    express = require('express'),
+    session = require('express-session'),
+    mySql = require('mysql'),
+    app = express(),
+    helmet = require('helmet'),
+    cookieParser = require('cookie-parser'),
+    passport = require('passport')
+
 // =========================== PASSPORT STRATEGY ===========================
 // Github strategy 
 const GitHubStrategy = require('passport-github').Strategy;
@@ -17,6 +17,7 @@ const gitConf = require('./config/gitConf');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 // Google config
 const googleConf = require('./config/googleConfig');
+
 //=========================== Database ===========================
 const config = require('./config/db')
 // Create connection to db MySQL 
@@ -26,13 +27,14 @@ conn.connect((err) => {
     if (err) console.log('Connection failed');
     else console.log('Connected');
 })
+
 // Backbone Creation
 app.use(helmet());
-
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/views'));
 app.use(express.static('public'))
 
+// Use JSON and Encoded that in any requests
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
